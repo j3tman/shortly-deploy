@@ -11,10 +11,11 @@ var db = require('../app/config');
 /////////////////////////////////////////////////////
 
 var User = require('../app/config.js').User;
-var Link = require('../app/config').Links;
+var Link = require('../app/config').Link;
 describe('', function() {
 
   beforeEach(function(done) {
+
     // Log out currently signed in user
     request(app)
       .get('/logout')
@@ -24,12 +25,22 @@ describe('', function() {
         Link.remove({url : 'http://www.roflzoo.com/'}).exec();
         User.remove({username : 'Savannah'}).exec();
         User.remove({username : 'Phillip'}).exec();
+        User.remove({username: 'Svnh'}).exec();
 
         done();
       });
   });
 
   describe('Link creation: ', function() {
+    
+    beforeEach(function(done) {
+      request(app)
+        .post('/signup')
+        .send({
+          'username': 'Svnh',
+          'password': 'Svnh' }).end(function(){done()});
+      });
+    
 
     it('Only shortens valid urls, returning a 404 - Not found for invalid urls', function(done) {
       request(app)

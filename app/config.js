@@ -7,20 +7,20 @@ var crypto = require('crypto');
 
 mongoose.connect('mongodb://hr35:student@ds052408.mongolab.com:52408/yh-shortly');
 
-module.exports.db = mongoose.connection;
+var db = mongoose.connection;
 
-module.exports.db.on('error', console.error.bind(console, 'connection error:'));
-module.exports.db.once('open', function (callback) {
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
   console.log('Connected!');
 });
 
-module.exports.Users = mongoose.Schema({
+var Users = mongoose.Schema({
   username: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true }
 });
 
-module.exports.Links = mongoose.Schema({
-  url: String,
+var Links = mongoose.Schema({
+  url: { type: String, required: true, index: { unique: true } },
   base_url: String,
   code: String,
   title: String,
@@ -28,19 +28,23 @@ module.exports.Links = mongoose.Schema({
 });
 
 
-// module.exports.User = mongoose.model('User', 'Users');
 
-module.exports.Users.methods.comparePassword = function(attemptedPassword) {
+Users.method('comparePassword', function(attemptedPassword) {
+  var hash = this.password;
   return new Promise(function (res, rej) {
-  bcrypt.compare(attemptedPassword, this.password, function(err, isMatch) {
-      if(err){rej(err);}else{
+  bcrypt.compare(attemptedPassword, hash, function(err, isMatch) {
+      if(err){
+        rej(err);
+      }else{
       res(isMatch);
       }
     });
     
   })
-  },
+});
 
+module.exports.User = mongoose.model('User', Users);
+module.exports.Link = mongoose.model('Link', Links);
 
 
   // hashPassword: function(){
@@ -50,12 +54,12 @@ module.exports.Users.methods.comparePassword = function(attemptedPassword) {
         // this.password = hash);
       // });
 
-module.exports.Users.pre('save', function(next, done) { 
+Users.pre('save', function(next, done) { 
   var user = this;
   if (!user.isModified('password')) {
      return next();
     }
-  bcrypt.hash(user.password, null, function(err, hash) {
+  bcrypt.hash(user.password, null, null, function(err, hash) {
      if (err) { 
       return next(err);
     }
@@ -65,7 +69,7 @@ module.exports.Users.pre('save', function(next, done) {
 });
 
 
-module.exports.Links.pre('save', function(next, done) {
+Links.pre('save', function(next, done) {
   var link = this;
   if(!link.isModified('url')) {
     return next();
