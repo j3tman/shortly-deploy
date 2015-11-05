@@ -137,7 +137,8 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', [ 'shell', 
+  grunt.registerTask('deploy', [ 
+    //'shell', 
       // add your production server task here
   ]);
 
