@@ -4,8 +4,8 @@ var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 var crypto = require('crypto');
 
-
-mongoose.connect('mongodb://hr35:student@ds052408.mongolab.com:52408/yh-shortly');
+var dbUrl = process.env.dbUrl || 'mongodb://hr35:student@ds052408.mongolab.com:52408/yh-shortly';
+mongoose.connect(dbUrl);
 
 var db = mongoose.connection;
 
