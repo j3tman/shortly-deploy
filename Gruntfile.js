@@ -123,7 +123,7 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask('build', [ 
-    'jshint', 'mochaTest', 'uglify' , 'cssmin'
+    'jshint', 'uglify' , 'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
