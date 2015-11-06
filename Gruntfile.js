@@ -37,7 +37,9 @@ module.exports = function(grunt) {
       },
       build: {
         files: {
-          'public/client.min.js': 'public/client/**/*.js',
+          'public/client.min.js': ['public/client/app.js', 'public/client/link.js',
+            'public/client/links.js', 'public/client/linkView.js', 'public/client/linksView.js', 
+            'public/client/createLinkView.js', 'public/client/router.js'],
           'public/lib.min.js': ['public/lib/jquery.js', 'public/lib/underscore.js', 'public/lib/backbone.js', 'public/lib/handlebars.js']
         }
       //   files: [{
