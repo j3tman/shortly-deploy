@@ -36,13 +36,17 @@ module.exports = function(grunt) {
         sourceMap: true
       },
       build: {
-        files: [{
-          src: 'public/client/**/*.js',
-          dest: 'public/client.min.js'
-        }, {
-          src: 'public/lib/**/*.js',
-          dest: 'public/lib.min.js'
-        }]
+        files: {
+          'public/client.min.js': 'public/client/**/*.js',
+          'public/lib.min.js': ['public/lib/jquery.js', 'public/lib/underscore.js', 'public/lib/backbone.js', 'public/lib/handlebars.js']
+        }
+      //   files: [{
+      //     src: 'public/client/**/*.js',
+      //     dest: 'public/client.min.js'
+      //   }, {
+      //     src: 'public/lib/**/*.js',
+      //     dest: 'public/lib.min.js'
+      //   }]
       }
     },
 
